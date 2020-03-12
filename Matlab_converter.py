@@ -20,4 +20,33 @@ for i in range(47):
 
 #======================================================================================
 
-weight_seats = np.array([[10, 131], [20,131], [30,214], [40,214], [50,251], [60,251], [70,288], [80,288], [100,170]])
+
+
+def instantanious_weight(t,bem,block,data): # contains hardcoded passenger weights
+
+
+    weight_seats = np.array([[10, 131], [20,131], [30,214], [40,214], [50,251], [60,251], [70,288], [80,288], [100,170]])
+
+
+    # 1st column  = mass 2nd is the distance in inches to front of aircraft
+    weight_bagage = np.array([[10,74],[20,321],[30,338]])
+
+
+    fuel_use = data[:, 14] + data[:, 15]  # first  is left engine 2nd is right engine fuel use
+
+    total  =    bem + block + np.sum(weight_seats[:,0]) + np.sum(weight_bagage[:,0]) - fuel_use[np.where(t == data[:,0])[0]]
+
+    return total
+
+
+
+block = 10
+bem = 10
+t = 10
+
+current_weight = instantanious_weight(t,bem,block,data) # output in pounds
+print(current_weight)
+
+
+
+
