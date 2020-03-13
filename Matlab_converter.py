@@ -22,6 +22,8 @@ for i in range(47):
 
 
 
+
+
 def instantanious_weight(t,bem,block,data): # contains hardcoded passenger weights
 
 
@@ -34,19 +36,43 @@ def instantanious_weight(t,bem,block,data): # contains hardcoded passenger weigh
 
     fuel_use = data[:, 14] + data[:, 15]  # first  is left engine 2nd is right engine fuel use
 
-    total  =    bem + block + np.sum(weight_seats[:,0]) + np.sum(weight_bagage[:,0]) - fuel_use[np.where(t == data[:,0])[0]]
+    total  =   bem + block + np.sum(weight_seats[:,0]) + np.sum(weight_bagage[:,0]) - fuel_use[np.where(t == data[:,0])[0]]
 
     return total
 
+block = 10          # in kg
+bem = 10            # in kg
+t = 10              # in sec
+
+# current_weight = instantanious_weight(t,bem,block,data) # output in pounds
 
 
-block = 10
-bem = 10
-t = 10
+# load the moment data
 
-current_weight = instantanious_weight(t,bem,block,data) # output in pounds
-print(current_weight)
+path = 'moment_data.csv'
+file = open(path, "r")
+moment_weight = np.genfromtxt(path, delimiter=",", skip_header=1)
+file.close()
 
 
+current_weight = instantanious_weight(t,bem,block,data)
+
+
+i = 23
+
+if i == (np.shape(moment_weight)[0]-1):
+    a=0
+else:
+    if current_weight <= moment_weight[i,0] and current_weight >= moment_weight[i+1,0]:
+
+        x1 = moment_weight[i,0]
+        x2 = moment_weight[i+1,0]
+        y1 = moment_weight[i,1]
+        y2 = moment_weight[i+1,1]
+
+        gradient = (y2-y1)/(x2-x1)
+        y_comp = y1-gradient*x1
+        moment = gradient*current_weight+y_comp
+        print(moment)
 
 
