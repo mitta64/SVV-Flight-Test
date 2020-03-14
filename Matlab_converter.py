@@ -55,24 +55,26 @@ moment_weight = np.genfromtxt(path, delimiter=",", skip_header=1)
 file.close()
 
 
-current_weight = instantanious_weight(t,bem,block,data)
+#current_weight = instantanious_weight(t,bem,block,data)
 
+current_weight = 3450
+moment = 0
+for i in range(np.shape(moment_weight)[0]):
+    if i == (np.shape(moment_weight)[0]-1):
+        a=0
 
-i = 23
+    else:
+        if current_weight >= moment_weight[i,0] and current_weight <= moment_weight[i+1,0]:
+            x1 = moment_weight[i,0]
+            x2 = moment_weight[i+1,0]
+            y1 = moment_weight[i,1]
+            y2 = moment_weight[i+1,1]
 
-if i == (np.shape(moment_weight)[0]-1):
-    a=0
-else:
-    if current_weight <= moment_weight[i,0] and current_weight >= moment_weight[i+1,0]:
+            gradient = (y2-y1)/(x2-x1)
+            y_comp = y1-gradient*x1
+            moment = gradient*current_weight+y_comp
 
-        x1 = moment_weight[i,0]
-        x2 = moment_weight[i+1,0]
-        y1 = moment_weight[i,1]
-        y2 = moment_weight[i+1,1]
+print(moment)
 
-        gradient = (y2-y1)/(x2-x1)
-        y_comp = y1-gradient*x1
-        moment = gradient*current_weight+y_comp
-        print(moment)
 
 
