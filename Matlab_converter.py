@@ -11,7 +11,7 @@ import numpy as np
 #=====================================================================================
 
 
-matlab = spio.loadmat('matlab.mat')
+matlab = spio.loadmat('FTISxprt-20200306_flight3.mat')
 time = matlab['flightdata'][0][0][47][0][0][0].transpose()
 data = time   
 for i in range(47):
@@ -55,9 +55,8 @@ moment_weight = np.genfromtxt(path, delimiter=",", skip_header=1)
 file.close()
 
 
-#current_weight = instantanious_weight(t,bem,block,data)
+current_weight = instantanious_weight(t,bem,block,data)
 
-current_weight = 3450
 moment = 0
 for i in range(np.shape(moment_weight)[0]):
     if i == (np.shape(moment_weight)[0]-1):
