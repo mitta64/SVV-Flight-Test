@@ -21,9 +21,6 @@ for i in range(48):
 #======================================================================================
 
 
-
-
-
 def instantanious_weight(t,bem,block,data, weight_seats): # contains hardcoded passenger weights
 
     fuel_use = data[:, 14] + data[:, 15]  # first  is left engine 2nd is right engine fuel use
@@ -70,7 +67,7 @@ def fuel_moment(t,bem,block,weight_seats):
 
     return fuel_moment
 
-def moment_equilibrium(weight_seats,current_weight,zero_fuel,ramp_mass,fuel_moment_datum,bem,block,arm_bem):
+def moment_equilibrium(weight_seats,current_weight,zero_fuel,ramp_mass,fuel_moment_datum,bem,arm_bem,mac):
     m_seats = np.sum(weight_seats[:, 0] * weight_seats[:,1])      # mass in lbs times distance to datum in inch
     m_bem = bem*arm_bem
     m_block = 11705.50 *100 # From the table read of at 4100 lbs
@@ -83,7 +80,12 @@ def moment_equilibrium(weight_seats,current_weight,zero_fuel,ramp_mass,fuel_mome
     xcg_datum_0fuel = (m_seats + m_bem) / zero_fuel
     xcg_datum_ramp = (m_seats + m_bem + m_block)/ramp_mass
 
-    return xcg_datum_bem,xcg_datum_0fuel,float(xcg_datum_ramp),float(xcg_datum)
+    # cg normalized wrt MAC
+    #xcg = (xcg_datum - 261.45) * 0.0254 #xcg in distance from start MAC
+    xcg = (xcg_datum - 261.45)*0.0254*100/(mac*0.0254) #xcg is in %c MAC
+
+
+    return xcg_datum_bem,xcg_datum_0fuel,float(xcg_datum_ramp),float(xcg_datum),float(xcg)
 
 # ========================================= MAIN =======================================================================
 
@@ -91,13 +93,23 @@ def moment_equilibrium(weight_seats,current_weight,zero_fuel,ramp_mass,fuel_mome
 block = 4100          # in lbs
 bem = 9165            # in lbs
 arm_bem = 291.65      # in inch
+mac = 80.98           # in inch
 t = 9                 # in sec
 
+
+
+# seating defined
 weight_seats = np.array([[80, 131], [102, 131], [66, 214], [81, 214], [99, 251], [64, 251], [81, 288], [99, 288], [88, 170]])
 weight_seats[:, 0] = 2.20462262 * weight_seats[:, 0]  # convert weight in kg to lbs
 
+
+# weight determination
 current_weight,fuel_present, zero_fuel_mass,ramp_mass = instantanious_weight(t, bem, block, data, weight_seats)
+
+# moment determined wrt datum caused by fuel consumption
 fuel_moment_datum = fuel_moment(t,bem,block,weight_seats)
 
-xcg_datum = moment_equilibrium(weight_seats,current_weight,zero_fuel_mass,ramp_mass,fuel_moment_datum,bem,block,arm_bem)
-print(xcg_datum)
+
+# cg contains: BEM cg wrt datum, Zero fuel cg wrt datum, Ramp cg wrt datum, current cg wrt datum, cg wrt MAC
+cg = moment_equilibrium(weight_seats,current_weight,zero_fuel_mass,ramp_mass,fuel_moment_datum,bem,arm_bem,mac)
+
