@@ -2,6 +2,8 @@
 import numpy as np
 # xcg = 0.25 * c
 
+#======================================================================================
+"""Values that need to be determined"""
 # Stationary flight condition
 
 hp0    =    1	      # pressure altitude in the stationary flight condition [m]
@@ -20,6 +22,8 @@ CLa    =     1        # Slope of CL-alpha curve [ ]
 # Longitudinal stability
 Cma    =    1         # longitudinal stabilty [ ]
 Cmde   =    1         # elevator effectiveness [ ]
+
+#======================================================================================
 
 # Aircraft geometry
 
