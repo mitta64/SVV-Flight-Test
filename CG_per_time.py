@@ -3,6 +3,7 @@ program determines the cg position with with respect to time
 
 """
 
+import scipy.io as spio
 import numpy as np
 
 
