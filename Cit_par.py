@@ -21,9 +21,6 @@ CLa    =     1        # Slope of CL-alpha curve [ ]
 Cma    =    1         # longitudinal stabilty [ ]
 Cmde   =    1         # elevator effectiveness [ ]
 
-# Change later
-hp0 = 1
-V0 = 1
 
 # Aircraft geometry
 
