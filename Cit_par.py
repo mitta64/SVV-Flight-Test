@@ -1,25 +1,8 @@
 # Citation 550 - Linear simulation
 import numpy as np
+from Matlab_converter import *
 # xcg = 0.25 * c
 
-# Stationary flight condition
-
-hp0    =    1	      # pressure altitude in the stationary flight condition [m]
-V0     =    1         # true airspeed in the stationary flight condition [m/sec]
-alpha0 =    1         # angle of attack in the stationary flight condition [rad]
-th0    =    1         # pitch angle in the stationary flight condition [rad]
-
-# Aircraft mass
-m      =    1        # mass [kg]
-
-# aerodynamic properties
-e      =     1        # Oswald factor [ ]
-CD0    =     1        # Zero lift drag coefficient [ ]
-CLa    =     1        # Slope of CL-alpha curve [ ]
-
-# Longitudinal stability
-Cma    =    1         # longitudinal stabilty [ ]
-Cmde   =    1         # elevator effectiveness [ ]
 
 # Aircraft geometry
 
@@ -43,9 +26,32 @@ lmbda = -0.0065         # temperature gradient in ISA [K/m]
 Temp0  = 288.15          # temperature at sea level in ISA [K]
 R      = 287.05          # specific gas constant [m^2/sec^2K]
 g      = 9.81            # [m/sec^2] (gravity constant)
+gamma = 1.4
+#static parameters
+
+hp0    = p0 * ((1 + (lmbda * alt)/(Temp0))**(-g)/(lmbda*R))	      # pressure altitude in the stationary flight condition [m]
+M      = np.sqrt((2/(gamma - 1))*((1 + (p0/hp0)*((1+(((gamma - 1)/(2*gamma))*(rho0/p0)*V_calib)**(gamma/(gamma-1)))**((gamma - 1)/gamma)))-1))
+hTemp0 = temp_measured_total / (1 + ((gamma - 1)/2) * M**2) 
+a = np.sqrt(gamma * R * hTemp0)
+V0     =    M*a         # true airspeed in the stationary flight condition [m/sec]
+alpha0 =    1         # angle of attack in the stationary flight condition [rad]
+th0    =    1         # pitch angle in the stationary flight condition [rad]
+
+# Aircraft mass
+m      =    1        # mass [kg]
+
+# aerodynamic properties
+e      =     1        # Oswald factor [ ]
+CD0    =     1        # Zero lift drag coefficient [ ]
+CLa    =     1        # Slope of CL-alpha curve [ ]
+
+# Longitudinal stability
+Cma    =    1         # longitudinal stabilty [ ]
+Cmde   =    1         # elevator effectiveness [ ]
+
 
 # air density [kg/m^3]  
-rho    = rho0 *(((1+(lmbda * hp0 / Temp0)))**(-((g / (lmbda*R)))))   
+rho    = rho0 *(((1+(lmbda * hp0 / Temp0)))**(-((g / (lmbda*R)))+1))   
 W      = m * g            # [N]       (aircraft weight)
 
 # Constant values concerning aircraft inertia
@@ -72,7 +78,7 @@ CD = CD0 + (CLa * alpha0) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
 # Stabiblity derivatives
 
 CX0    = W * np.sin(th0) / (0.5 * rho * V0 ** 2 * S)
-CXu    = -0.02792
+CXu    = -0.095
 CXa    = +0.47966		# Positive! (has been erroneously negative since 1993) 
 CXadot = +0.08330
 CXq    = -0.28170
@@ -108,3 +114,4 @@ Cnp    =  -0.0602
 Cnr    =  -0.2061
 Cnda   =  -0.0120
 Cndr   =  -0.0939
+
