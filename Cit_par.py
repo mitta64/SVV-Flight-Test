@@ -29,11 +29,6 @@ g      = 9.81            # [m/sec^2] (gravity constant)
 gamma = 1.4
 #static parameters
 
-hp0    = p0 * ((1 + (lmbda * alt)/(Temp0))**(-g)/(lmbda*R))	      # pressure altitude in the stationary flight condition [m]
-M      = np.sqrt((2/(gamma - 1))*((1 + (p0/hp0)*((1+(((gamma - 1)/(2*gamma))*(rho0/p0)*V_calib)**(gamma/(gamma-1)))**((gamma - 1)/gamma)))-1))
-hTemp0 = temp_measured_total / (1 + ((gamma - 1)/2) * M**2) 
-a = np.sqrt(gamma * R * hTemp0)
-V0     =    M*a         # true airspeed in the stationary flight condition [m/sec]
 alpha0 =    1         # angle of attack in the stationary flight condition [rad]
 th0    =    1         # pitch angle in the stationary flight condition [rad]
 
