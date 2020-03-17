@@ -1,0 +1,6 @@
+Eigenmotions;;;;;;;;;;;;
+;;;;;;;;;;;;
+;;;Time;;;Time;;;Time;;;
+;;;[hh:mm];;;[hh:mm];;;[hh:mm];;;
+Phugoid;;;53:57;Dutch Roll;;1:01:57;Aper. Roll;;59:10;;;
+Short period;;;1:00:35;Dutch Roll YD;;1:02:47;Spiral;;1:05:20;;;

@@ -1,0 +1,14 @@
+Stationary measurements CL - CD Series 2;;;;;;;;;;;;
+;;;;;;;;;;;;
+Aircraft configuration :;;;;;;;;;;;;
+;;;;;;;;;;;;
+nr.;time;ET*;hp;IAS;a;FFl;FFr;F. used;TAT;;;
+;[hh:mm];[sec];[ft];[kts];[deg];[lbs/hr];[lbs/hr];[lbs];[°C];;;
+;;;;;;;;;;;;
+1;;;;;;;;;;;;
+2;;;;;;;;;;;;
+3;;;;;;;;;;;;
+4;;;;;;;;;;;;
+5;;;;;;;;;;;;
+6;;;;;;;;;;;;
+7;;;;;;;;;;;;
