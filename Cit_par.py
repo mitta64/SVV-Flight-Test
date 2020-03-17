@@ -4,6 +4,10 @@ from Matlab_converter import *
 # xcg = 0.25 * c
 
 
+# Change later
+hp0 = 1
+V0 = 1
+
 # Aircraft geometry
 
 S      = 30.00	          # wing area [m^2]

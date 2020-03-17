@@ -95,6 +95,5 @@ def Rho(altitude):
 # V = V_TAS(274.4, 0, 15)
 # print(V)
 	
-Rho = Rho()
-print(Rho)
+
 

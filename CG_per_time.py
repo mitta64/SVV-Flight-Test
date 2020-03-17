@@ -28,12 +28,26 @@ def instantanious_weight(t, bem, block, data, weight_seats):  # contains hardcod
     fuel_present = block - fuel_use[np.where(t == data[:, 0])[0]]
 
     current_total = bem + block + np.sum(weight_seats[:, 0]) - fuel_use[np.where(t == data[:, 0])[0]]
-
+    
     zero_fuel_mass = np.sum(weight_seats[:, 0]) + bem
     ramp_mass = bem + block + np.sum(weight_seats[:, 0])
 
     return current_total, fuel_present, zero_fuel_mass, ramp_mass
 
+
+# def weight_array(time, bem, block, data, weight_seats):
+    
+#     fuel_use = data[:, 14] + data[:, 15]  # first  is left engine 2nd is right engine fuel use   
+#     j = 0
+#     weight = np.empty(np.size(time))
+#     for i in time:   
+        
+#         current_total = bem + block + np.sum(weight_seats[:, 0]) - fuel_use[np.where(i == data[:, 0])[0]]
+#         weight[j ] = current_total
+#         j += 1
+        
+    
+#     return weight
 
 def fuel_moment(t, bem, block, weight_seats):
     # load the moment data
@@ -88,6 +102,7 @@ def moment_equilibrium(weight_seats, current_weight, zero_fuel, ramp_mass, fuel_
     return xcg_datum_bem, xcg_datum_0fuel, float(xcg_datum_ramp), float(xcg_datum), float(xcg)
 
 
+
 # ========================================= MAIN =======================================================================
 
 
@@ -110,3 +125,4 @@ fuel_moment_datum = fuel_moment(t, bem, block, weight_seats)
 
 # cg contains: BEM cg wrt datum, Zero fuel cg wrt datum, Ramp cg wrt datum, current cg wrt datum, cg wrt MAC
 cg = moment_equilibrium(weight_seats, current_weight, zero_fuel_mass, ramp_mass, fuel_moment_datum, bem, arm_bem, mac)
+
