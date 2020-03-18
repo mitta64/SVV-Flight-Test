@@ -11,6 +11,7 @@ from math import *
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 #Short period
 A = 4*muc**2*KY2
 B = -2*muc*(KY2*CZa + Cmadot + Cmq)
