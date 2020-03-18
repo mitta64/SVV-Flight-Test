@@ -72,8 +72,8 @@ CD = np.array(CD)
 
 
 # Plot CL over alpha
-#plt.plot(alpha, CD)
-#plt.plot(alpha, CL)
+
+plt.plot(alpha, CL)
 plt.plot(CD, CL)
 
 plt.show()

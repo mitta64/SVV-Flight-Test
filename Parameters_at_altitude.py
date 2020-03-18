@@ -40,7 +40,7 @@ def mach(V_C, altitude):
 def hTemp0(V_Cal, altitude, temp_measured_total):
 	gamma  = 1.4
 	Mach   = mach(V_Cal, altitude)
-	hTemp0 = (273.15 + temp_measured_total) / (1 + ((gamma - 1)/2) * Mach**2)
+	hTemp0 = (temp_measured_total) / (1 + ((gamma - 1)/2) * Mach**2)
 	
 	return hTemp0 
 
@@ -50,7 +50,7 @@ def SoS(V_cal, altitude, temp_measured_total):
 	R      = 287.05          # specific gas constant [m^2/sec^2K]
 	gamma  = 1.4
 	HT     = hTemp0(V_cal, altitude, temp_measured_total)
-	a      = np.sqrt((gamma * R * HT))
+	a      = np.sqrt(gamma * R * HT)
 	
 	return a
 

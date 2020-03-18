@@ -161,5 +161,3 @@ cm_de = -(1/d_elevator)*C_N*(d_cg/mac)
 
 slope_trimcurve = -0.4562 # from excel plot
 cm_alpha = -cm_de*slope_trimcurve
-print(cm_de)
-print(cm_alpha)
