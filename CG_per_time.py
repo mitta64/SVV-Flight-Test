@@ -5,7 +5,7 @@ program determines the cg position with with respect to time
 
 import scipy.io as spio
 import numpy as np
-
+from Parameters_at_altitude import *
 
 
 # =====================================================================================
@@ -96,8 +96,8 @@ def moment_equilibrium(weight_seats, current_weight, zero_fuel, ramp_mass, fuel_
     xcg_datum_ramp = (m_seats + m_bem + m_block) / ramp_mass
 
     # cg normalized wrt MAC
-    # xcg = (xcg_datum - 261.45) * 0.0254 #xcg in distance from start MAC
-    xcg = (xcg_datum - 261.45) * 0.0254 * 100 / (mac * 0.0254)  # xcg is in %c MAC
+    xcg = (xcg_datum - 261.45) * 0.0254 #xcg in distance from start MAC
+    #xcg = (xcg_datum - 261.45) * 0.0254 * 100 / (mac * 0.0254)  # xcg is in %c MAC
 
     return xcg_datum_bem, xcg_datum_0fuel, float(xcg_datum_ramp), float(xcg_datum), float(xcg)
 
@@ -125,4 +125,41 @@ fuel_moment_datum = fuel_moment(t, bem, block, weight_seats)
 
 # cg contains: BEM cg wrt datum, Zero fuel cg wrt datum, Ramp cg wrt datum, current cg wrt datum, cg wrt MAC
 cg = moment_equilibrium(weight_seats, current_weight, zero_fuel_mass, ramp_mass, fuel_moment_datum, bem, arm_bem, mac)
+cg1 = cg[-1]
 
+
+
+# cg shift L3 to 131 inch
+
+t = 3164
+
+weight_seats = np.array([[80, 131], [102, 131], [66, 214], [81, 214], [99, 251], [64, 251], [81, 288], [99, 131], [88, 170]])
+weight_seats[:, 0] = 2.20462262 * weight_seats[:, 0]  # convert weight in kg to lbs
+
+current_weight, fuel_present, zero_fuel_mass, ramp_mass = instantanious_weight(t, bem, block, data, weight_seats)
+fuel_moment_datum = fuel_moment(t, bem, block, weight_seats)
+cg = moment_equilibrium(weight_seats, current_weight, zero_fuel_mass, ramp_mass, fuel_moment_datum, bem, arm_bem, mac)
+cg2 = cg[-1]
+
+d_cg = (cg2-cg1)
+d_elevator = -0.4 #deg
+mac = 2.0569
+s = 30.0
+
+
+v_tas = V_TAS(155*0.514444444-2,3919.728,-12.2)
+rho = Rho(3919.728)
+
+
+d_elevator = d_elevator*(np.pi/180)
+C_N = current_weight/(0.5*rho*v_tas**2*s)
+
+cm_de = -(1/d_elevator)*C_N*(d_cg/mac)
+
+
+# Cm_alpha determination
+
+slope_trimcurve = -0.4562 # from excel plot
+cm_alpha = -cm_de*slope_trimcurve
+print(cm_de)
+print(cm_alpha)

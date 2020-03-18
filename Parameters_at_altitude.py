@@ -40,7 +40,7 @@ def mach(V_C, altitude):
 def hTemp0(V_Cal, altitude, temp_measured_total):
 	gamma  = 1.4
 	Mach   = mach(V_Cal, altitude)
-	hTemp0 = temp_measured_total / (1 + ((gamma - 1)/2) * Mach**2)
+	hTemp0 = (273.15 + temp_measured_total) / (1 + ((gamma - 1)/2) * Mach**2)
 	
 	return hTemp0 
 
@@ -50,7 +50,7 @@ def SoS(V_cal, altitude, temp_measured_total):
 	R      = 287.05          # specific gas constant [m^2/sec^2K]
 	gamma  = 1.4
 	Temp0  = 288.15          # temperature at sea level in ISA [K]
-	temp_measured_kelv = temp_measured_total + Temp0
+	temp_measured_kelv = temp_measured_total + 273.15
 	HT     = hTemp0(V_cal, altitude, temp_measured_kelv)
 	a      = np.sqrt(gamma * R * HT)
 	
@@ -67,12 +67,13 @@ def V_TAS(V_C, altitude, temp_measured_total):
 
 def Rho(altitude):
 	rho0   = 1.2250          # air density at sea level [kg/m^3] 
-	lmbda = -0.0065         # temperature gradient in ISA [K/m]
+	lmbda  = -0.0065         # temperature gradient in ISA [K/m]
 	Temp0  = 288.15          # temperature at sea level in ISA [K]
 	R      = 287.05          # specific gas constant [m^2/sec^2K]
 	g      = 9.81            # [m/sec^2] (gravity constant)
-	rho    = rho0 *(((1+(lmbda * altitude / Temp0)))**(-((g / (lmbda*R)))-1)) 
 	
+	rho    = rho0 *((1+(lmbda * altitude / Temp0))**(-((g/(lmbda*R)))-1)) 
+
 	return rho
 	
 	
@@ -95,5 +96,7 @@ def Rho(altitude):
 # V = V_TAS(274.4, 0, 15)
 # print(V)
 	
+# rho = Rho(3000)
+# print(rho)	
 
 
