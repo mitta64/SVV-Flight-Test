@@ -71,7 +71,7 @@ def Rho(altitude):
 	Temp0  = 288.15          # temperature at sea level in ISA [K]
 	R      = 287.05          # specific gas constant [m^2/sec^2K]
 	g      = 9.81            # [m/sec^2] (gravity constant)
-	rho    = rho0 *(((1+(lmbda * altitude / Temp0)))**(-((g / (lmbda*R)))+1)) 
+	rho    = rho0 *(((1+(lmbda * altitude / Temp0)))**(-((g / (lmbda*R)))-1)) 
 	
 	return rho
 	
