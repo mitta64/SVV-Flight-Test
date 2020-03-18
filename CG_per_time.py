@@ -141,7 +141,7 @@ fuel_moment_datum = fuel_moment(t, bem, block, weight_seats)
 cg = moment_equilibrium(weight_seats, current_weight, zero_fuel_mass, ramp_mass, fuel_moment_datum, bem, arm_bem, mac)
 cg2 = cg[-1]
 
-d_cg = (cg1-cg2)
+d_cg = (cg2-cg1)
 d_elevator = -0.4 #deg
 mac = 2.0569
 s = 30.0
@@ -155,5 +155,9 @@ d_elevator = d_elevator*(np.pi/180)
 C_N = current_weight/(0.5*rho*v_tas**2*s)
 
 cm_de = -(1/d_elevator)*C_N*(d_cg/mac)
-print(cm_de)
 
+
+# Cm_alpha determination
+
+slope_trimcurve = -0.4562 # from excel plot
+cm_alpha = -cm_de*slope_trimcurve
