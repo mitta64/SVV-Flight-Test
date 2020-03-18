@@ -128,7 +128,6 @@ cg = moment_equilibrium(weight_seats, current_weight, zero_fuel_mass, ramp_mass,
 cg1 = cg[-1]
 
 
-
 # cg shift R3 to 131 inch
 
 t = 3164
@@ -142,9 +141,9 @@ cg = moment_equilibrium(weight_seats, current_weight, zero_fuel_mass, ramp_mass,
 cg2 = cg[-1]
 
 d_cg = (cg2-cg1)
-print("dcg",d_cg)
+
 d_elevator = -0.4 #deg
-print("delevator", d_elevator)
+
 mac = 2.0569
 s = 30.0
 
@@ -163,3 +162,5 @@ cm_de = -(1/d_elevator)*C_N*(d_cg/mac)
 
 slope_trimcurve = -0.4562 # from excel plot
 cm_alpha = -cm_de*slope_trimcurve
+print(cm_de)
+print(cm_alpha)
