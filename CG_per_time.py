@@ -129,7 +129,7 @@ cg1 = cg[-1]
 
 
 
-# cg shift L3 to 131 inch
+# cg shift R3 to 131 inch
 
 t = 3164
 
@@ -142,7 +142,9 @@ cg = moment_equilibrium(weight_seats, current_weight, zero_fuel_mass, ramp_mass,
 cg2 = cg[-1]
 
 d_cg = (cg2-cg1)
+print("dcg",d_cg)
 d_elevator = -0.4 #deg
+print("delevator", d_elevator)
 mac = 2.0569
 s = 30.0
 
