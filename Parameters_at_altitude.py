@@ -11,7 +11,7 @@ def hp0(alt):
 	p0     = 101325.0        # pressure at sea level [Pa]
 	
 	
-	hp    = p0 * ((1 + (lmbda * alt)/(Temp0))**((-g)/(lmbda*R)))	      # pressure altitude in the stationary flight condition [m]
+	hp    = p0 * ((1 + (lmbda * alt)/(Temp0))**((-g)/(lmbda*R)))# pressure altitude in the stationary flight condition [m]
 	
 	return hp
 
@@ -49,10 +49,9 @@ def hTemp0(V_Cal, altitude, temp_measured_total):
 def SoS(V_cal, altitude, temp_measured_total):
 	R      = 287.05          # specific gas constant [m^2/sec^2K]
 	gamma  = 1.4
-	Temp0  = 288.15          # temperature at sea level in ISA [K]
 	temp_measured_kelv = temp_measured_total + 273.15
 	HT     = hTemp0(V_cal, altitude, temp_measured_kelv)
-	a      = np.sqrt(gamma * R * HT)
+	a      = np.sqrt((gamma * R * HT))
 	
 	return a
 
@@ -75,8 +74,17 @@ def Rho(altitude):
 	rho    = rho0 *((1+(lmbda * altitude / Temp0))**(-((g/(lmbda*R)))-1)) 
 
 	return rho
+
+def V_EAS(V_C, altitude, temp_measured_total):
+	rho0 = 1.2250
+	Vt   = V_TAS(V_C, altitude, temp_measured_total)	
+	r    = Rho(altitude)
+	V_E = Vt * np.sqrt((r/rho0))
 	
-	
+	return V_E
+
+
+
 #==============================================================================
 #TEST OF FUNCTIONS
 #==============================================================================
