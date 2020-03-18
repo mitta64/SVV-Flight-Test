@@ -50,7 +50,6 @@ def SoS(V_cal, altitude, temp_measured_total):
 	R      = 287.05          # specific gas constant [m^2/sec^2K]
 	gamma  = 1.4
 	HT     = hTemp0(V_cal, altitude, temp_measured_total)
-	print(HT)
 	a      = np.sqrt(gamma * R * HT)
 	
 	return a
@@ -98,12 +97,12 @@ def V_EAS(V_C, altitude, temp_measured_total):
 # htemp0 = hTemp0(274.4, 0, 15)
 # print(htemp0)
 
-a = SoS(274.4, 0, 15)
-print(a)
+# a = SoS(274.4, 0, 15)
+# print(a)
 
 # V = V_TAS(274.4, 0, 15)
 # print(V)
-	
+ 	
 # rho = Rho(2000)
 # print(rho)	
 
