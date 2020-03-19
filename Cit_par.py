@@ -6,7 +6,7 @@ from CG_per_time import data
 # Stationary flight condition
 
 hp0    =    1	      # pressure altitude in the stationary flight condition [m]
-V0     =    183.471 * 0.514444        # true airspeed in the stationary flight condition [m/sec]
+V0     =    183.471 * 0.514444  # true airspeed in the stationary flight condition [m/sec]
 alpha0 =    1         # angle of attack in the stationary flight condition [rad]
 th0    =    1         # pitch angle in the stationary flight condition [rad]
 """Implemented V0 & m for t = 3257.8 sec"""
