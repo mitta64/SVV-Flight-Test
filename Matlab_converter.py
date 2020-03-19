@@ -82,3 +82,5 @@ D_asym = np.matrix([[0, 0],
 
 asymmetric = control.ss(A_asym, B_asym, C_asym, D_asym)
 
+t = np.arange(0, 60.1, 0.1)
+t_out, y_out = control.forced_response(symmetric, t, 5)
