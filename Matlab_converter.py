@@ -84,6 +84,7 @@ D_asym = np.matrix([[0, 0],
 asymmetric = control.ss(A_asym, B_asym, C_asym, D_asym)
 
 X0 = np.array([V0, 5.43746, 9.97352 , -0.10809])
+
 t = np.arange(0, 60.1, 0.1)
 y_out, t_out = control.initial(symmetric, t, X0)
 plt.plot(t_out, y_out[:,0])
