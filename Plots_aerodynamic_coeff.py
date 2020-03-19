@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Parameters_at_altitude import V_TAS, Rho
 from CG_per_time import ramp_mass
-from Cit_par import S, g
+from Cit_par import S, g, A
 
 # ======================================================================================
     
@@ -36,6 +36,9 @@ def drag_coeff(thrust, V_C, altitude, temp_measured_total, wingspan):
         CD[i] = (thrust[0,i] ) / (0.5 * Rho(altitude[0,i]) * (V_TAS(V_C[0,i], altitude[0,i], temp_measured_total[0,i]))**2 *S)
             
     return CD
+
+
+    
 
 
 # ======================================================================================
@@ -73,9 +76,23 @@ CD = np.array(CD)
 
 # Plot CL over alpha
 
-plt.plot(alpha, CL)
-plt.plot(CD, CL)
+#plt.plot(alpha, CL)
+#plt.plot(CL**2, CD)
 
+
+# CD0 & Oswald efficiency
+plt.scatter(CL**2, CD)
+z = np.polyfit((CL**2).flatten(), CD.flatten(), 1)
+p = np.poly1d(z)
+plt.suptitle('Trend line')
+plt.xlabel('$C_{L}^2$')
+plt.ylabel('$C_{D}$')
+plt.plot(CL**2,p(CL**2),"r--")
+plt.title("y=%.6fx+%.6f"%(z[0],z[1])) 
+
+CD0 = z[1]
+e = 1 / (np.pi * A * z[0])
+#print(CD0, e)
 plt.show()
 
 # ======================================================================================
