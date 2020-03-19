@@ -6,7 +6,7 @@ program determines the cg position with with respect to time
 import scipy.io as spio
 import numpy as np
 from Parameters_at_altitude import *
-
+import matplotlib.pyplot as plt
 
 # =====================================================================================
 
@@ -110,7 +110,7 @@ block = 4100  # in lbs
 bem = 9165  # in lbs
 arm_bem = 291.65  # in inch
 mac = 80.98  # in inch
-t = 9  # in sec
+t = 3257.8  # in sec
 
 # seating defined
 weight_seats = np.array(
@@ -164,3 +164,10 @@ slope_trimcurve = -0.4562 # from excel plot
 cm_alpha = -cm_de*slope_trimcurve
 print(cm_de)
 print(cm_alpha)
+
+# ======================================================================================
+# Plot vtas over t, eigenmotions
+# VTAS = data[:,43][29911:40112]
+# t = np.arange(3000, 4020.1, 0.1)
+# plt.plot(t, VTAS)
+# plt.show()

@@ -84,13 +84,15 @@ CD = np.array(CD)
 plt.scatter(CL**2, CD)
 z = np.polyfit((CL**2).flatten(), CD.flatten(), 1)
 p = np.poly1d(z)
-
+plt.suptitle('Trend line')
+plt.xlabel('$C_{L}^2$')
+plt.ylabel('$C_{D}$')
 plt.plot(CL**2,p(CL**2),"r--")
 plt.title("y=%.6fx+%.6f"%(z[0],z[1])) 
 
 CD0 = z[1]
 e = 1 / (np.pi * A * z[0])
-print(CD0, e)
+#print(CD0, e)
 plt.show()
 
 # ======================================================================================

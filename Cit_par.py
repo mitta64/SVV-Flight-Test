@@ -1,16 +1,17 @@
 # Citation 550 - Linear simulation
 import numpy as np
+from CG_per_time import data
 # xcg = 0.25 * c
 
 # Stationary flight condition
 
 hp0    =    1	      # pressure altitude in the stationary flight condition [m]
-V0     =    1         # true airspeed in the stationary flight condition [m/sec]
+V0     =    183.471 * 0.514444        # true airspeed in the stationary flight condition [m/sec]
 alpha0 =    1         # angle of attack in the stationary flight condition [rad]
 th0    =    1         # pitch angle in the stationary flight condition [rad]
-
+"""Implemented V0 & m for t = 3257.8 sec"""
 # Aircraft mass
-m      =    1        # mass [kg]
+m      =    6531.898        # mass [kg]
 
 # aerodynamic properties
 e      =     1        # Oswald factor [ ]
