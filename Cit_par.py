@@ -1,5 +1,6 @@
 # Citation 550 - Linear simulation
 import numpy as np
+from CG_per_time import data
 # xcg = 0.25 * c
 
 # Stationary flight condition
