@@ -6,7 +6,7 @@ program determines the cg position with with respect to time
 import scipy.io as spio
 import numpy as np
 from Parameters_at_altitude import *
-
+import matplotlib.pyplot as plt
 
 # =====================================================================================
 
@@ -164,3 +164,10 @@ slope_trimcurve = -0.4562 # from excel plot
 cm_alpha = -cm_de*slope_trimcurve
 print(cm_de)
 print(cm_alpha)
+
+# ======================================================================================
+
+VTAS = data[:,43][29911:40112]
+t = np.arange(3000, 4020.1, 0.1)
+plt.plot(t, VTAS)
+plt.show()
