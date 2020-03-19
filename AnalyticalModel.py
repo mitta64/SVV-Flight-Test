@@ -64,6 +64,7 @@ def ShortPeriodSymplified():
 
 #Phugoid
 def PhugoidSymplified():
+    """YOU CAN ONLY USE THE PERIOD TO VERIFY THIS MODE, THE AMPLITUDE AND THUS DAMPING GIVES UNACCURATE VALUES"""
     """
     Parameters
     ----------
@@ -116,43 +117,50 @@ def HeavilyDampedApriodicRoll():
     lambdaha = Clp / (4*mub*KX2)
     
     #Time to half damped
-    Thalf = (np.log(0.5) / lambdaha)*(c/60)
+    Thalf = (np.log(0.5) / lambdaha)*(b/V0)
     
     #Time constant
-    tao = -(1/lambdaha)*(c/60)
+    tao = -(1/lambdaha)*(b/V0)
     
     return lambdaha, Thalf, tao
 
 #Dutch Roll
 def DutchRoll():
-    #A = 8*mub**2*KZ2
-    #B = -2*mub*(Cnr + 2*KZ2*CYb)
-    #C = 4*mub*Cnb + CYb*Cnr
+    A = 8*mub**2*KZ2
+    B = -2*mub*(Cnr + 2*KZ2*CYb)
+    C = 4*mub*Cnb + CYb*Cnr
     
-    A = -2*mub*KZ2
-    B = 0.5*Cnr
-    C = -Cnb
-    
-    lambda1 = (-B - (np.sqrt(4*A*C - B**2))*1j ) / 2*A
-    lambda2 = (-B + (np.sqrt(4*A*C - B**2))*1j ) / 2*A
+    lambda1 = (-B - (np.sqrt(4*A*C - B**2))*1j ) / (2*A)
+    lambda2 = (-B + (np.sqrt(4*A*C - B**2))*1j ) / (2*A)
     
     #half time to damp
-    Thalf = -(np.log(0.5)/lambda1.real)
+    Thalf = (np.log(0.5)/lambda1.real)*(b/V0)
+    
+    #Period
+    P = (2*np.pi/lambda2.imag)*(b/V0)
     
     #Number of periods to half damped amplitude
-    Chalf1 = -(np.log(0.5)/2*np.pi)*(lambda1.imag/lambda1.real)
-    Chalf2 = -(np.log(0.5)/2*np.pi)*(lambda2.imag/lambda2.real)
+    Chalf = (np.log(0.5)/2*np.pi)*(lambda2.imag/lambda2.real)
     
     #Logarithmic decrement
-    delta1 = 2*np.pi*(lambda1.real/lambda1.imag)
-    delta2 = 2*np.pi*(lambda2.real/lambda2.imag)
+    delta = 2*np.pi*(lambda1.real/lambda1.imag)
     
     #damping ratio
-    damp1 = -lambda1.real / np.sqrt(lambda1.real**2 + lambda1.imag**2)
-    damp2 = -lambda1.real / np.sqrt(lambda2.real**2 + lambda2.imag**2)
+    damp = -lambda1.real / (np.sqrt(lambda1.real**2 + lambda1.imag**2))
     
-    return lambda1, lambda2, Thalf, Chalf1, Chalf2, delta1, delta2, damp1, damp2
     
+    return lambda1, lambda2, Thalf, P, Chalf, delta, damp
+
+def ApriodicSpiral():
+    lambdaspiral = (2*CL*(Clb*Cnr - Cnb*Clr)) / (Clp*(CYb*Cnr + 4*mub*Cnb) - Cnp(CYb*Clr + 4*mub*Clb))
+    
+    #Time to half damped
+    Thalf = (np.log(0.5) / lambdaspiral)*(b/V0)
+    
+    #Time constant
+    tao = -(1/lambdaha)*(b/V0)
+    
+    return lambdaha, Thalf, tao
     
         
 
