@@ -13,8 +13,6 @@ ax.axhline(y=0, color='k')
 plt.show()
 
 
-'''
-
 matlab = spio.loadmat('matlab.mat')
 time = matlab['flightdata'][0][0][47][0][0][0].transpose()
 data = time
@@ -28,4 +26,5 @@ plt.plot(time,elevator)
 plt.xlabel('time[min]')
 plt.ylabel('Elevator deflection [deg]')
 plt.show()
-'''
+
+
