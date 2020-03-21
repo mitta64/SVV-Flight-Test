@@ -15,7 +15,7 @@ import numpy as np
 #Short Period (sp)
 """using simplification a as mentioned in the reader"""
 
-def ShortPeriodSymplified():
+def ShortPeriodSimplified():
     """
     Returns: All Short Period characteristic parameters
     -------
@@ -54,7 +54,7 @@ def ShortPeriodSymplified():
     return lambda1, lambda2, Thalf, P, Chalf, delta, damp
 
 #Phugoid
-def PhugoidSymplified():
+def PhugoidSimplified():
     """YOU CAN ONLY USE THE PERIOD TO VERIFY THIS MODE, THE AMPLITUDE AND THUS DAMPING GIVES UNACCURATE VALUES"""
     """
     Returns: All Short Period characteristic parameters
@@ -97,7 +97,7 @@ def PhugoidSymplified():
 ###Asymmetric Eigenmotions#############################################
 
 #Heavily damped aperiodic rolling motion
-def HeavilyDampedApriodicRoll():    
+def HeavilyDampedApriodicRollSimplified():    
     """ 
     Returns: All Short Period characteristic parameters
     -------
@@ -116,7 +116,7 @@ def HeavilyDampedApriodicRoll():
     return lambdaha, Thalf, tao
 
 #Dutch Roll
-def DutchRoll():
+def DutchRollSimplified():
     """
     Returns: All Short Period characteristic parameters
     -------
@@ -153,7 +153,7 @@ def DutchRoll():
     
     return lambda1, lambda2, Thalf, P, Chalf, delta, damp
 
-def ApriodicSpiral():  
+def ApriodicSpiralSimplified():  
     """DONT USE TO VERIFY EIGENVALUES, AS THE LAMBDA IS POS HERE, BUT SHOULD BE NEGATIVE"""
     """
     Returns: All Short Period characteristic parameters
@@ -173,7 +173,7 @@ def ApriodicSpiral():
     
     return lambdaspiral, Thalf, tao
 
-def DutchandAperiodRoll():
+def DutchandAperiodRollSimplified():
     """    
     Returns: All Short Period characteristic parameters
     -------
