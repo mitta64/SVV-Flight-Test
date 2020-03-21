@@ -10,6 +10,7 @@ import numpy as np
 from Cit_par import *
 import matplotlib.pyplot as plt
 import control.matlab as control
+from CG_per_time import instantanious_weight
 
 matlab = spio.loadmat('matlab.mat')
 time = matlab['flightdata'][0][0][47][0][0][0].transpose()
@@ -17,6 +18,10 @@ data = time
 for i in range(47):
     data = np.concatenate((data, matlab['flightdata'][0][0][i][0][0][0]), axis = 1)
     
+
+
+
+
 
 
 #======================================================================================
@@ -84,8 +89,11 @@ D_asym = np.matrix([[0, 0],
 asymmetric = control.ss(A_asym, B_asym, C_asym, D_asym)
 
 X0 = np.array([V0, 5.43746, 9.97352 , -0.10809])
+control.damp(asymmetric)
 
-t = np.arange(0, 60.1, 0.1)
-y_out, t_out = control.initial(symmetric, t, X0)
-plt.plot(t_out, y_out[:,0])
-plt.show()
+#t = np.arange(0, 60.1, 0.1)
+#y_out, t_out = control.initial(symmetric, t, X0)
+#plt.plot(t_out, y_out[:,0])
+#plt.show()
+
+
