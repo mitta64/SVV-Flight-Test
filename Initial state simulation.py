@@ -36,6 +36,12 @@ A_asym = np.matrix([[(V0 * CYb)/(b * 2 * mub), (V0 * CL)/(b * 2 * mub), (V0 * CY
                     [(V0 * (Clb * KXZ + Cnb * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), 0, (V0 * (Clp * KXZ + Cnp * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), (V0 * (Clr * KXZ + Cnr * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2))]])
 #A_asym[:, 2] = (b / 2 * V0) * A_asym[:,2]
 #A_asym[:, 3] = (b / 2 * V0) * A_asym[:,3]
+# symetric system
+A_sym = np.matrix([[(V0 * CXu) / (c * 2 * muc ), (V0 * CXa) / (c * 2 * muc ), (V0 * CZ0) / (c * 2 * muc ), (V0 * CXq) / (c * 2 * muc )],
+                    [(V0 * CZu) / (c * (2 * muc - CZadot)), (V0 * CZa) / (c * (2 * muc - CZadot)), (-V0 * CX0) / (c * (2 * muc - CZadot)), (V0 * (2 * muc + CZq)) / (c * (2 * muc - CZadot))],
+                    [0, 0, 0, V0/c],
+                    [V0 * ((Cmu + CZu * (Cmadot / (2 * muc - CZadot))) / (c * 2 * muc * KY2)), V0 * ((Cma + CZa * (Cmadot / (2 * muc - CZadot))) / (c * 2 * muc * KY2)), -V0 * ((CX0 * (Cmadot / (2 * muc - CZadot))) / (c * 2 * muc * KY2)), V0 * ((Cmq + Cmadot * ((2 * muc + CZq) / (2 * muc - CZadot))) / (c * 2 * muc * KY2))]])
+
 
 
 print(np.linalg.eig(A_asym))
@@ -55,7 +61,7 @@ def initial_repsonse(A,t,x0,mass):
     y4 = []
     length = np.shape(t)[0]
 
-    for i in t[0:100]:
+    for i in t[0:800]:
 
         y1.append(float(x[0]))
         y2.append(float(x[1]))
@@ -71,10 +77,10 @@ def initial_repsonse(A,t,x0,mass):
 
     return y1,y2,y3,y4
 
-y1,y2,y3,y4 = initial_repsonse(A_asym,time,x0,mass)
+y1,y2,y3,y4 = initial_repsonse(A_sym,time,x0,mass)
 
-time = time[0:100]
+time = time[0:800]
 
 
-plt.plot(time[0:10],y1[0:10],time[0:10],y2[0:10],time[0:10],y3[0:10],time[0:10],y4[0:10])
+plt.plot(time[0:],y1[0:],time[0:],y2[0:],time[0:],y3[0:],time[0:],y4[0:])
 plt.show()
