@@ -91,18 +91,18 @@ def V_EAS(V_C, altitude, temp_measured_total):
 # hp = hp0(3048)
 # print(hp)
 
-# Mach = mach(274.4, 0.0)
+# Mach = mach(340.3, 0.0)
 # print(Mach)
 
-# htemp0 = hTemp0(274.4, 0, 15)
+# htemp0 = hTemp0(0, 0, 15)
 # print(htemp0)
 
-# a = SoS(274.4, 0, 15)
+# a = SoS(343, 0, 78.63)
 # print(a)
 
-# V = V_TAS(274.4, 0, 15)
+# V = V_TAS(340.3, 0, 15)
 # print(V)
- 	
+	
 # rho = Rho(2000)
 # print(rho)	
 
