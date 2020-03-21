@@ -34,8 +34,8 @@ A_asym = np.matrix([[(V0 * CYb)/(b * 2 * mub), (V0 * CL)/(b * 2 * mub), (V0 * CY
                     [0, 0, 2 * V0 / b, 0],
                     [(V0 * (Clb * KZ2 + Cnb * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), 0, (V0 * (Clp * KZ2 + Cnp * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), (V0 * (Clr * KZ2 + Cnr * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2))],
                     [(V0 * (Clb * KXZ + Cnb * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), 0, (V0 * (Clp * KXZ + Cnp * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), (V0 * (Clr * KXZ + Cnr * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2))]])
-A_asym[:, 2] = (b / 2 * V0) * A_asym[:,2]
-A_asym[:, 3] = (b / 2 * V0) * A_asym[:,3]
+#A_asym[:, 2] = (b / 2 * V0) * A_asym[:,2]
+#A_asym[:, 3] = (b / 2 * V0) * A_asym[:,3]
 
 
 print(np.linalg.eig(A_asym))
@@ -55,7 +55,7 @@ def initial_repsonse(A,t,x0,mass):
     y4 = []
     length = np.shape(t)[0]
 
-    for i in t[0:100]:
+    for i in t[0:500]:
 
         y1.append(float(x[0]))
         y2.append(float(x[1]))
@@ -73,8 +73,8 @@ def initial_repsonse(A,t,x0,mass):
 
 y1,y2,y3,y4 = initial_repsonse(A_asym,time,x0,mass)
 
-time = time[0:100]
+time = time[0:500]
 
 
-plt.plot(time[0:10],y1[0:10],time[0:10],y2[0:10],time[0:10],y3[0:10],time[0:10],y4[0:10])
+plt.plot(time[0:],y1[0:],time[0:],y2[0:],time[0:],y3[0:],time[0:],y4[0:])
 plt.show()
