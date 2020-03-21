@@ -221,7 +221,7 @@ def DutchandAperiodRollSimplified():
     return lambda1, lambda2, lambda3, Thalfroll, Thalfdutch, P, Chalf, delta, damp
     
     
-        
+lambda1, lambda2, lambda3, Thalfroll, Thalfdutch, P, Chalf, delta, damp = DutchandAperiodRollSimplified()        
 
 
 

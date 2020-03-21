@@ -49,8 +49,8 @@ A_sym = np.matrix([[(V0 * CXu) / (c * 2 * muc ), (V0 * CXa) / (c * 2 * muc ), (V
                     [(V0 * CZu) / (c * (2 * muc - CZadot)), (V0 * CZa) / (c * (2 * muc - CZadot)), (-V0 * CX0) / (c * (2 * muc - CZadot)), (V0 * (2 * muc + CZq)) / (c * (2 * muc - CZadot))],
                     [0, 0, 0, V0/c],
                     [V0 * ((Cmu + CZu * (Cmadot / (2 * muc - CZadot))) / (c * 2 * muc * KY2)), V0 * ((Cma + CZa * (Cmadot / (2 * muc - CZadot))) / (c * 2 * muc * KY2)), -V0 * ((CX0 * (Cmadot / (2 * muc - CZadot))) / (c * 2 * muc * KY2)), V0 * ((Cmq + Cmadot * ((2 * muc + CZq) / (2 * muc - CZadot))) / (c * 2 * muc * KY2))]])
-A_sym[:,0] =  (1/V0) * A_sym[:,0]            #multiply first column with V
-A_sym[:,3] = (c/V0) * A_sym[:,3]
+#A_sym[:,0] =  (1/V0) * A_sym[:,0]            #multiply first column with V
+#A_sym[:,3] = (c/V0) * A_sym[:,3]
 
 B_sym = np.matrix([[(V0 * CXde) / (c * 2 * muc)], 
                     [(V0 * CZde) / (c *( 2 * muc - CZadot))],
@@ -64,15 +64,17 @@ D_sym  = np.matrix([[0],
                     [0],
                     [0]])
 symmetric = control.ss(A_sym,B_sym,C_sym,D_sym)
-
+eigenvalues = np.linalg.eig(A_sym)
+control.damp(symmetric)
+# control.pzmap(symmetric)
 
 # Asymmetric
 A_asym = np.matrix([[(V0 * CYb)/(b * 2 * mub), (V0 * CL)/(b * 2 * mub), (V0 * CYp)/(b * 2 * mub), (V0 * (CYr - 4 * mub))/(b * 2 * mub)],
                     [0, 0, 2 * V0 / b, 0],
                     [(V0 * (Clb * KZ2 + Cnb * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), 0, (V0 * (Clp * KZ2 + Cnp * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), (V0 * (Clr * KZ2 + Cnr * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2))],
                     [(V0 * (Clb * KXZ + Cnb * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), 0, (V0 * (Clp * KXZ + Cnp * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), (V0 * (Clr * KXZ + Cnr * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2))]])
-A_asym[:, 2] = (b / 2 * V0) * A_asym[:,2]
-A_asym[:, 3] = (b / 2 * V0) * A_asym[:,3]
+# A_asym[:, 2] = (b / 2 * V0) * A_asym[:,2]
+# A_asym[:, 3] = (b / 2 * V0) * A_asym[:,3]
 
 B_asym = np.matrix([[0, (V0 * (CYr - 4 * mub))/(b * 2 * mub)],
                     [0, 0],
@@ -88,12 +90,13 @@ D_asym = np.matrix([[0, 0],
 
 asymmetric = control.ss(A_asym, B_asym, C_asym, D_asym)
 
+# control.damp(asymmetric)
+# control.pzmap(asymmetric)
+
 X0 = np.array([V0, 5.43746, 9.97352 , -0.10809])
-control.damp(asymmetric)
-
-#t = np.arange(0, 60.1, 0.1)
-#y_out, t_out = control.initial(symmetric, t, X0)
-#plt.plot(t_out, y_out[:,0])
-#plt.show()
 
 
+# t = np.arange(0, 60.1, 0.1)
+# y_out, t_out = control.initial(symmetric, t, X0)
+# plt.plot(t_out, y_out[:,0])
+# plt.show()

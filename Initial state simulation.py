@@ -34,8 +34,8 @@ A_asym = np.matrix([[(V0 * CYb)/(b * 2 * mub), (V0 * CL)/(b * 2 * mub), (V0 * CY
                     [0, 0, 2 * V0 / b, 0],
                     [(V0 * (Clb * KZ2 + Cnb * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), 0, (V0 * (Clp * KZ2 + Cnp * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), (V0 * (Clr * KZ2 + Cnr * KXZ)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2))],
                     [(V0 * (Clb * KXZ + Cnb * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), 0, (V0 * (Clp * KXZ + Cnp * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2)), (V0 * (Clr * KXZ + Cnr * KX2)) / (b * 4 * mub * (KX2 * KZ2 - KXZ**2))]])
-A_asym[:, 2] = (b / 2 * V0) * A_asym[:,2]
-A_asym[:, 3] = (b / 2 * V0) * A_asym[:,3]
+#A_asym[:, 2] = (b / 2 * V0) * A_asym[:,2]
+#A_asym[:, 3] = (b / 2 * V0) * A_asym[:,3]
 
 
 print(np.linalg.eig(A_asym))
