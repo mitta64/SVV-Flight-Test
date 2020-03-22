@@ -164,7 +164,7 @@ slope_trimcurve = -0.4562 # from excel plot
 cm_alpha = -cm_de*slope_trimcurve
 print(cm_de)
 print(cm_alpha)
-
+#
 # ======================================================================================
 # Plot vtas over t, eigenmotions
 # VTAS = data[:,43][29911:40112]
