@@ -6,7 +6,7 @@ Created on Sat Mar 21 17:32:11 2020
 """
 
 #import
-from Matlab_converterold import data
+from CG_per_time import data
 import numpy as np
 import matplotlib.pyplot as plt
 from Initial_state_simulation import initial_repsonse, A_asym, x0, mass, A_sym

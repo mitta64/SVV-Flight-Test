@@ -77,7 +77,7 @@ def initial_repsonse(A,t,x0,mass):
 
     return y1,y2,y3,y4
 
-y1,y2,y3,y4 = initial_repsonse(A_sym,time,x0,mass)
+y1,y2,y3,y4 = initial_repsonse(A_asym,time,x0,mass)
 
 time = time[0:800]
 
