@@ -3,20 +3,12 @@ import numpy as np
 from Cit_par_phogoid import *
 import matplotlib.pyplot as plt
 from CG_per_time import mass
-'''
-matlab = spio.loadmat('matlab.mat')
-time = matlab['flightdata'][0][0][47][0][0][0].transpose()
+
+matlab = spio.loadmat('FTISxprt-20200306_flight3.mat')
+time = matlab['flightdata'][0][0][48][0][0][0].transpose()
 data = time
-for i in range(47):
-    data = np.concatenate((data, matlab['flightdata'][0][0][i][0][0][0]), axis = 1)
-
-np.savetxt("data.csv", data, delimiter=",")
-'''
-
-path = 'data.csv'
-file = open(path, "r")
-data = np.genfromtxt(path, delimiter=",", skip_header=0)
-file.close()
+for i in range(48):
+    data = np.concatenate((data, matlab['flightdata'][0][0][i][0][0][0]), axis=1)
 
 print('loaded')
 
@@ -24,17 +16,8 @@ print('loaded')
 #B = np.array([[2],[2],[0],[1]])
 #C = np.array([[1,0],[0,1]])
 #D = np.array([[0],[0]])
-'''
-plt.subplot(2, 1, 1)
-plt.plot(time[31000:42000],pitch[31000:42000])
-plt.grid(True)
 
-plt.subplot(2, 1, 2)
-plt.plot(time[31000:42000],control_input_sym[31000:42000])
-plt.grid(True)
-plt.show()
 
-'''
 
 def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
     # t0 in sec, accurate to 1 decimal place
@@ -125,8 +108,8 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
         y3.append(float(x[2]))
         y4.append(float(x[3]))
 
-        #x_dot = np.dot(A, x) + input[inital_index + i]*B
-        x_dot = np.dot(A,x) + np.dot(B,np.array([[input[inital_index+i]]]))
+        x_dot = np.dot(A, x) + input[inital_index + i]*B
+        #x_dot = np.dot(A,x) + np.dot(B,np.array([[input[inital_index+i]]]))
 
         x = x + dt*x_dot
 
@@ -135,38 +118,55 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
 # ================================ MAIN ============================================================
 
 time = data[:,0]
-velocity = data[:,41]
-AOA = data[:,1]
-pitch = data[:,22]
-pitchrate = data[:,27]
-control_input_sym = np.radians(data[:,17])
+velocity = data[:,43]
 
-v_init = 158 # =158 for phogoid
-u_flight = data[:,41]-v_init
-t_initial = 3230.8 #sec # =3230.8 for phogoid
+AOA = data[:,1]
+pitch = data[:,23]
+pitchrate = data[:,28]
+control_input_sym = data[:,18]
+print("elevator",control_input_sym[0])
+control_input_sym = np.radians(control_input_sym)
+
+
+t_initial = 3415.3 #sec # =3207 for phogoid
+v_init = velocity[int(t_initial*10)] # =185 for phogoid
+print(v_init)
+u_flight = data[:,43]-v_init
 duration = 200 #sec = 200 for phogoid
 
 
-x0= np.array([[velocity[int(t_initial*10)]-v_init],[np.radians(AOA[int(t_initial*10)])],[np.radians(pitch[int(t_initial*10)])],[np.radians(pitchrate[int(t_initial*10)])]])
+x0= np.array([[0],[np.radians(AOA[int(t_initial*10)])],[np.radians(pitch[int(t_initial*10)])],[np.radians(pitchrate[int(t_initial*10)])]])
+'''
+plt.subplot(2, 1, 1)
+plt.plot(time[31000:42000],pitch[31000:42000])
+plt.grid(True)
 
+plt.subplot(2, 1, 2)
+plt.plot(time[31000:42000],data[31000:42000,43])
+#plt.plot(time[31000:42000],data[31000:42000,42]) # is the calibrated airspeed
+plt.grid(True)
 
+plt.show()
+'''
 y1,y2,y3,y4 = initial_repsonse(1,t_initial,duration,x0,control_input_sym,mass,velocity)
 
 time = time[0:duration*10]
 
-plt.plot(time,y1,label='u_numerical')
+plt.plot(time,y4,label='u_numerical')
 #plt.plot(time[0:],y2[0:],label='AOA')
 #plt.plot(time[0:],y3[0:],label='pitch')
 #plt.plot(time[0:],y4[0:],label='pitchrate')
 
 #compare against flight data
 
-plt.plot(time,u_flight[int(t_initial*10):int((t_initial+duration)*10)],label='u_flight')
-plt.plot(time,control_input_sym[int(t_initial*10):int((t_initial+duration)*10)]*57.2957795,label = 'control_input')
+plt.plot(time,pitchrate[int(t_initial*10):int((t_initial+duration)*10)],label='pitch_flight')
+#plt.plot(time,control_input_sym[int(t_initial*10):int((t_initial+duration)*10)]*57.2957795,label = 'control_input')
 #plt.plot(time,y1[0:]-u_flight[32502:34502],label='Absolute Error')
 plt.legend()
 plt.grid(True)
 plt.show()
+
+
 
 
 '''
