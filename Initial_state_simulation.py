@@ -1,6 +1,6 @@
 import scipy.io as spio
 import numpy as np
-from Cit_par import *
+from Cit_par_phogoid import *
 import matplotlib.pyplot as plt
 from CG_per_time import mass
 '''
@@ -27,7 +27,7 @@ print('loaded')
 
 time = data[:,0]
 velocity = data[:,41]
-u_flight = data[:,41]-161
+u_flight = data[:,41]-160
 AOA = data[:,1]
 pitch = data[:,22]
 pitchrate = data[:,27]
@@ -127,7 +127,7 @@ def initial_repsonse(mode,t,x0,input,mass):
     y4 = []
     length = np.shape(t)[0]
 
-    for i in range(1200):
+    for i in range(2000):
 
         y1.append(float(x[0]))
         y2.append(float(x[1]))
@@ -142,7 +142,7 @@ def initial_repsonse(mode,t,x0,input,mass):
 
 y1,y2,y3,y4 = initial_repsonse(1,time,x0_phogoid,control_input_sym,mass)
 
-time = time[0:1200]
+time = time[0:2000]
 
 plt.plot(time[0:],y1[0:],label='u_numerical')
 #plt.plot(time[0:],y2[0:],label='AOA')
@@ -151,8 +151,9 @@ plt.plot(time[0:],y1[0:],label='u_numerical')
 
 #compare against flight data
 
-plt.plot(time,u_flight[32502:33702],label='u_flight')
-plt.plot(time,control_input_sym[32502:33702]*57.2957795,label = 'control_input')
+plt.plot(time,u_flight[32502:34502],label='u_flight')
+plt.plot(time,control_input_sym[32502:34502]*57.2957795,label = 'control_input')
+plt.plot(time,y1[0:]-u_flight[32502:34502],label='Absolute Error')
 plt.legend()
 plt.show()
 

@@ -7,7 +7,7 @@ Created on Sat Mar  7 09:05:12 2020
 
 import scipy.io as spio
 import numpy as np
-from Cit_par import *
+from Cit_par_phogoid import *
 import matplotlib.pyplot as plt
 import control.matlab as control
 from CG_per_time import instantanious_weight

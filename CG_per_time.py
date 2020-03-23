@@ -121,7 +121,7 @@ weight_seats[:, 0] = 2.20462262 * weight_seats[:, 0]  # convert weight in kg to 
 current_weight, fuel_present, zero_fuel_mass, ramp_mass = instantanious_weight(t, bem, block, data, weight_seats)
 
 mass = instantanious_weight(time,bem, block, data, weight_seats)[0]
-
+print(mass[32302])
 # moment determined wrt datum caused by fuel consumption
 fuel_moment_datum = fuel_moment(t, bem, block, weight_seats)
 
