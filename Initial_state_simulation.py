@@ -3,13 +3,22 @@ import numpy as np
 from Cit_par import *
 import matplotlib.pyplot as plt
 from CG_per_time import mass
-
+'''
 matlab = spio.loadmat('matlab.mat')
 time = matlab['flightdata'][0][0][47][0][0][0].transpose()
 data = time
 for i in range(47):
     data = np.concatenate((data, matlab['flightdata'][0][0][i][0][0][0]), axis = 1)
 
+np.savetxt("data.csv", data, delimiter=",")
+'''
+
+path = 'data.csv'
+file = open(path, "r")
+data = np.genfromtxt(path, delimiter=",", skip_header=0)
+file.close()
+
+print('loaded')
 
 #A = np.array([[-1,1,0,0],[-8,0,0,0],[1,3,6,5],[1,7,6,7]])
 #B = np.array([[2],[2],[0],[1]])
@@ -32,21 +41,19 @@ mode_motion = "phogoid"
 
 if mode_motion == "phogiod":
     index_0 = 32502
-    u_init = velocity[index_0] - 161 #kts
+    u_init =  161 - velocity[index_0]  #kts
 else:
     u_init = 0
     index_0 = 100
 
 
 
-x0 = np.array([[u_init],[AOA[index_0]],[pitch[index_0]],[pitchrate[index_0]]])
+x0 = np.array([[velocity[32502]-161],[np.radians(AOA[32502])],[np.radians(pitch[32502])],[np.radians(pitchrate[32502])]])
 
 # correct system matrix, asymmetric EOMs
 
 
 # Asymetric EOM
-
-
 
 
 #print(np.linalg.eig(A_sym))
@@ -123,7 +130,7 @@ def initial_repsonse(mode,t,x0,mass):
     y4 = []
     length = np.shape(t)[0]
 
-    for i in t[0:800]:
+    for i in t[0:1200]:
 
         y1.append(float(x[0]))
         y2.append(float(x[1]))
@@ -141,7 +148,7 @@ def initial_repsonse(mode,t,x0,mass):
 
 y1,y2,y3,y4 = initial_repsonse(1,time,x0,mass)
 
-time = time[0:800]
+time = time[0:1200]
 
 
 plt.plot(time[0:],y1[0:],label='u_numerical')
@@ -151,7 +158,7 @@ plt.plot(time[0:],y1[0:],label='u_numerical')
 
 #compare against flight data
 
-plt.plot(time,u_flight[index_0:index_0+800],label='u_flight')
+plt.plot(time,u_flight[32502:33702],label='u_flight')
 plt.legend()
 plt.show()
 
