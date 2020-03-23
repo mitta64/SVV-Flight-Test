@@ -44,7 +44,7 @@ A_sym = np.matrix([[(V0 * CXu) / (c * 2 * muc ), (V0 * CXa) / (c * 2 * muc ), (V
 
 
 
-print(np.linalg.eig(A_asym))
+#print(np.linalg.eig(A_asym))
 
 
 def initial_repsonse(A,t,x0,mass):
@@ -82,5 +82,5 @@ y1,y2,y3,y4 = initial_repsonse(A_asym,time,x0,mass)
 time = time[0:800]
 
 
-plt.plot(time[0:],y1[0:],time[0:],y2[0:],time[0:],y3[0:],time[0:],y4[0:])
-plt.show()
+# plt.plot(time[0:],y1[0:],time[0:],y2[0:],time[0:],y3[0:],time[0:],y4[0:])
+# plt.show()

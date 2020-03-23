@@ -67,14 +67,14 @@ D_sym  = np.matrix([[0],
                     [0]])
 
 symmetric = control.ss(A_sym,B_sym,C_sym,D_sym)     # Set up a system
-control.damp(symmetric)
-control.pzmap(symmetric)
+# control.damp(symmetric)
+# control.pzmap(symmetric)
 
 # Asymmetric
-B1 = np.matrix([[(CYbdot - 2 * mub) * (c/V0), 0, 0, 0],
+B1 = np.matrix([[(CYbdot - 2 * mub) * (b/V0), 0, 0, 0],
                 [0, -c/(2*V0), 0, 0],
-                [0, 0, -4 * mub * KX2 * (c/V0), 4 * mub * KXZ * (c/V0)],
-                [Cnbdot * (c/V0), 0, 4 * mub * KXZ * (c/V0), -4 * mub * KZ2 * (c/V0)]])
+                [0, 0, -4 * mub * KX2 * (b/V0), 4 * mub * KXZ * (b/V0)],
+                [Cnbdot * (b/V0), 0, 4 * mub * KXZ * (b/V0), -4 * mub * KZ2 * (b/V0)]])
 B1[:, 2] = (b/(2*V0)) * B1[:,2]
 B1[:, 3] = (b/(2*V0)) * B1[:, 3]
 
@@ -105,8 +105,8 @@ D_asym = np.matrix([[0, 0],
 
 asymmetric = control.ss(A_asym, B_asym, C_asym, D_asym)
 
-# control.damp(asymmetric)
-# control.pzmap(asymmetric)
+control.damp(asymmetric)
+#control.pzmap(asymmetric)
 
 X0 = np.array([0.01, 5.43746, 9.97352 , -0.10809])
 
