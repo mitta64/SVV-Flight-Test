@@ -12,11 +12,6 @@ import matplotlib.pyplot as plt
 import control.matlab as control
 from CG_per_time import instantanious_weight
 
-matlab = spio.loadmat('matlab.mat')
-time = matlab['flightdata'][0][0][47][0][0][0].transpose()
-data = time   
-for i in range(47):
-    data = np.concatenate((data, matlab['flightdata'][0][0][i][0][0][0]), axis = 1)
     
 #======================================================================================
 
@@ -31,11 +26,11 @@ Thus: u_hat -> u    multiply the first column of matrix A by  1/V      (symmetri
 """
 
 # Assumption
-#CXq = 0
+CXq = 0
 
 # Symmetric
 C1 = np.matrix([[-2 * muc * c / V0, 0, 0, 0],
-                [0, (CZadot - 2 * muc) * c / V0, 0, 0],
+                [0, (CZadot - 2 * muc) * (c / V0), 0, 0],
                 [0, 0, -c / V0, 1],
                 [0, Cmadot * c / V0, 0, -2 * muc * KY2 * c / V0]])
 C1[:, 0] = (1/V0) * C1[:,0]
@@ -72,7 +67,7 @@ symmetric = control.ss(A_sym,B_sym,C_sym,D_sym)     # Set up a system
 
 # Asymmetric
 B1 = np.matrix([[(CYbdot - 2 * mub) * (b/V0), 0, 0, 0],
-                [0, -c/(2*V0), 0, 0],
+                [0, -b/(2*V0), 0, 0],
                 [0, 0, -4 * mub * KX2 * (b/V0), 4 * mub * KXZ * (b/V0)],
                 [Cnbdot * (b/V0), 0, 4 * mub * KXZ * (b/V0), -4 * mub * KZ2 * (b/V0)]])
 B1[:, 2] = (b/(2*V0)) * B1[:,2]
