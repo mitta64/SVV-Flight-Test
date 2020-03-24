@@ -108,8 +108,8 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
         y3.append(float(x[2]))
         y4.append(float(x[3]))
 
-        x_dot = np.dot(A, x) + input[inital_index + i]*B
-        #x_dot = np.dot(A,x) + np.dot(B,np.array([[input[inital_index+i]]]))
+        #x_dot = np.dot(A, x) + input[inital_index + i]*B
+        x_dot = np.dot(A,x) + np.dot(B,np.array([[input[inital_index+i]]]))
 
         x = x + dt*x_dot
 
