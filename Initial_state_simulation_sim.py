@@ -136,13 +136,13 @@ control_input_sym = data[:,18]
 #control_input_sym = np.radians(control_input_sym)
 
 
-t_initial = 3414 #sec # =3207 for phogoid
+t_initial = 3400 #sec # =3207 for phogoid
 v_init = velocity[int(t_initial*10)] # =185 for phogoid
 u_flight = data[:,43]-v_init
 duration = 50 #sec = 200 for phogoid
 
 
-x0_sym= np.array([[velocity[int(t_initial*10)]-v_init],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
+x0_sym = np.array([[0],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
 
 '''
 plt.subplot(2, 1, 1)
@@ -176,7 +176,18 @@ plt.grid(True)
 plt.show()
 
 
+# Neat plots
+cutoff = 14 #sec
 
+time = time[:-int(cutoff*10)]
+y4 = y4[int(cutoff*10)]
+pitchrate = pitchrate[int(t_initial*10):int((t_initial+duration)*10)]
+pitchrate = pitchrate[int(cutoff*10)]
+
+control_input_sym = control_input_sym[int(cutoff*10)]
+
+plt.plot(time,y4,label='Pitchrate-numerical')
+plt.plot
 
 '''
 C1 = np.matrix([[-2 * muc * c / V0, 0, 0, 0],
