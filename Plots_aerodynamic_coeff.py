@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Parameters_at_altitude import V_TAS, Rho
 from CG_per_time import ramp_mass
-from Cit_par import S, g, A
+from Cit_par_phogoid import S, g, A
 
 # ======================================================================================
     

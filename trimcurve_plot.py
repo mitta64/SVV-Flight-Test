@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import scipy.io as spio
-from Cit_par import *
+from Cit_par_phogoid import *
 
 data = np.array([[3.9,	0.6],[4.6,0.2],[5.2,0],[6.2,-0.5],[7.1,-0.9],[8.4,-1.5],[10,-2.2],])
 fig,ax = plt.subplots()
