@@ -110,3 +110,5 @@ X0 = np.array([0.01, 5.43746, 9.97352 , -0.10809])
 # y_out, t_out = control.impulse(asymmetric, t, input = 1)
 # plt.plot(t_out, y_out[:,3])
 # plt.show()
+
+print(np.linalg.eig(A_asym))

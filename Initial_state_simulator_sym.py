@@ -136,7 +136,7 @@ control_input_sym = data[:,18]
 #control_input_sym = np.radians(control_input_sym)
 
 
-t_initial = 3414 #sec # =3207 for phogoid
+t_initial = 3400 #sec # =3207 for phogoid
 v_init = velocity[int(t_initial*10)] # =185 for phogoid
 u_flight = data[:,43]-v_init
 duration = 50 #sec = 200 for phogoid
