@@ -5,12 +5,12 @@ Created on Sat Mar  7 09:05:12 2020
 @author: Matthew
 """
 
-import scipy.io as spio
+
 import numpy as np
 from Cit_par import *
 import matplotlib.pyplot as plt
 import control.matlab as control
-from CG_per_time import instantanious_weight
+
 
     
 #======================================================================================
@@ -62,7 +62,7 @@ D_sym  = np.matrix([[0],
                     [0]])
 
 symmetric = control.ss(A_sym,B_sym,C_sym,D_sym)     # Set up a system
-# control.damp(symmetric)
+control.damp(symmetric)
 # control.pzmap(symmetric)
 
 # Asymmetric
@@ -100,7 +100,7 @@ D_asym = np.matrix([[0, 0],
 
 asymmetric = control.ss(A_asym, B_asym, C_asym, D_asym)
 
-control.damp(asymmetric)
+#control.damp(asymmetric)
 #control.pzmap(asymmetric)
 
 X0 = np.array([0.01, 5.43746, 9.97352 , -0.10809])
