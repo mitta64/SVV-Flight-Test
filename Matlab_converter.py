@@ -63,7 +63,7 @@ D_sym  = np.matrix([[0],
 
 symmetric = control.ss(A_sym,B_sym,C_sym,D_sym)     # Set up a system
 control.damp(symmetric)
-# control.pzmap(symmetric)
+#control.pzmap(symmetric)
 
 # Asymmetric
 B1 = np.matrix([[(CYbdot - 2 * mub) * (b/V0), 0, 0, 0],
