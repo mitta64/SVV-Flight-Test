@@ -28,6 +28,7 @@ weight_seats = np.array([[80, 131], [102, 131], [66, 214], [81, 214], [99, 251],
 weight_seats[:, 0] = 2.20462262 * weight_seats[:, 0]  # convert weight in kg to lbs
 
 mass = instantanious_weight(time,bem, block, data, weight_seats)[0]
+print(mass[35150])
 
 def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
     # t0 in sec, accurate to 1 decimal place
@@ -53,9 +54,9 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
     for i in range(duration*10):
         # Redefine matices
         # symetric
-        V0 = velocity[inital_index+i]
-        mub = mass[inital_index+i]/ (rho * S * b)
-        muc = mass[inital_index+i] / (rho * S * c)
+        #V0 = velocity[inital_index+i]
+        mub = mass[inital_index+i] / (rho * S * b)
+        #muc = mass[inital_index+i] / (rho * S * c)
 
         C1 = np.matrix([[-2 * muc * c / V0, 0, 0, 0],
                         [0, (CZadot - 2 * muc) * c / V0, 0, 0],
@@ -82,10 +83,10 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
         B_sym = C1_inv * C3
 
         # asymetric
-        B1 = np.matrix([[(CYbdot - 2 * mub) * (c / V0), 0, 0, 0],
-                        [0, -c / (2 * V0), 0, 0],
-                        [0, 0, -4 * mub * KX2 * (c / V0), 4 * mub * KXZ * (c / V0)],
-                        [Cnbdot * (c / V0), 0, 4 * mub * KXZ * (c / V0), -4 * mub * KZ2 * (c / V0)]])
+        B1 = np.matrix([[(CYbdot - 2 * mub) * (b / V0), 0, 0, 0],
+                        [0, -b / (2 * V0), 0, 0],
+                        [0, 0, -4 * mub * KX2 * (b / V0), 4 * mub * KXZ * (b / V0)],
+                        [Cnbdot * (b / V0), 0, 4 * mub * KXZ * (b / V0), -4 * mub * KZ2 * (b / V0)]])
         B1[:, 2] = (b / (2 * V0)) * B1[:, 2]
         B1[:, 3] = (b / (2 * V0)) * B1[:, 3]
 
@@ -104,6 +105,7 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
                         [-Cnda, -Cndr]])
 
         A_asym = - B1_inv * B2
+
         B_asym = B1_inv * B3
 
         if mode == 1:
@@ -118,9 +120,10 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
         y3.append(float(x[2]))
         y4.append(float(x[3]))
 
-        #x_dot = np.dot(A, x) + input[inital_index + i]*B
-        x_dot = np.dot(A,x) + np.dot(np.array([[input[inital_index+i]]]), B)
+        #print(np.linalg.eig(A))
+        input_vector = np.array([[input[0,inital_index+i]],[input[1,inital_index+i]]])
 
+        x_dot = np.dot(A,x) #+ np.dot(B,input_vector)
         x = x + dt*x_dot
 
     return y1,y2,y3,y4
@@ -136,12 +139,12 @@ pitchrate = data[:,28]
 control_input_sym = data[:,18]
 
 #Getting input in required formcontrol_input_asym
-control_input_asym = []
-for i, j in zip(data[:, 17], data[:, 19]): #adding da and dr
-             item = [i, j]
-             control_input_asym.append(item)
-control_input_asym = np.array(control_input_asym)     
-print(control_input_asym)       
+
+
+aileron = np.reshape(data[:,17],(52561,1))
+rudder = np.reshape(data[:,19],(52561,1))
+control_input_asym = np.concatenate((aileron.T,rudder.T),axis=0)
+
 
 #Asym state vector parameters
 #beta = data[:,]
@@ -149,40 +152,28 @@ rollangle = data[:,22]
 rollrate = data[:,27]
 yawrate = data[:,29]
 
-t_initial = 3414 #sec # =3207 for phogoid
+t_initial = 3515 #sec # =3207 for phogoid
 v_init = velocity[int(t_initial*10)] # =185 for phogoid
 u_flight = data[:,43]-v_init
-duration = 25 #sec = 200 for phogoid
+duration = 14 #sec = 200 for phogoid
 
 
 x0_sym= np.array([[velocity[int(t_initial*10)]-v_init],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
-x0_asym = np.array([[velocity[int(t_initial*10)]-v_init],[rollangle[int(t_initial*10)]],[rollrate[int(t_initial*10)]],[yawrate[int(t_initial*10)]]])
-'''
-plt.subplot(2, 1, 1)
-plt.plot(time[31000:42000],pitch[31000:42000])
-plt.grid(True)
+x0_asym = np.array([[0],[rollangle[int(t_initial*10)]],[rollrate[int(t_initial*10)]],[yawrate[int(t_initial*10)]]])
 
-plt.subplot(2, 1, 2)
-plt.plot(time[31000:42000],velocity[31000:42000])
-plt.plot(time[31000:42000],pitchrate[31000:42000])
-#plt.plot(time[31000:42000],data[31000:42000,42]) # is the calibrated airspeed
-plt.grid(True)
-
-plt.show()
-'''
-y1,y2,y3,y4 = initial_repsonse(1,t_initial,duration,x0_asym,control_input_asym,mass,velocity)
+y1,y2,y3,y4 = initial_repsonse(0,t_initial,duration,x0_asym,control_input_asym,mass,velocity)
 
 time = time[0:duration*10]
 
-plt.plot(time,y4,label='Pitchrate_numerical')
+plt.plot(time,y3,label='Rollrate_numerical')
 #plt.plot(time[0:],y2[0:],label='AOA')
 #plt.plot(time[0:],y3[0:],label='pitch')
 #plt.plot(time[0:],y4[0:],label='pitchrate')
 
 #compare against flight data
 
-plt.plot(time,pitchrate[int(t_initial*10):int((t_initial+duration)*10)],label='pitchrate_flight')
-plt.plot(time,control_input_asym[int(t_initial*10):int((t_initial+duration)*10)],label = 'control_input')
+plt.plot(time,rollrate[int(t_initial*10):int((t_initial+duration)*10)],label='Rollrate_numerical')
+plt.plot(time,control_input_asym[1,int(t_initial*10):int((t_initial+duration)*10)],label = 'control_input')
 #plt.plot(time,y1[0:]-u_flight[32502:34502],label='Absolute Error')
 plt.legend()
 plt.grid(True)

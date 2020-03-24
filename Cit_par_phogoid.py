@@ -11,12 +11,12 @@ file.close()
 # Stationary flight condition
 
 hp0    =    3000	      # pressure altitude in the stationary flight condition [m]
-V0     =    177*0.51444   # true airspeed in the stationary flight condition [m/sec]
+V0     =    187*0.51444   # 177 for symetric true airspeed in the stationary flight condition [m/sec]
 alpha0 =    9.58517557e-02         # angle of attack in the stationary flight condition [rad]
 th0    =    -1.35569808e-02        # pitch angle in the stationary flight condition [rad]
 """Implemented V0 & m for t = 3257.8 sec"""
 # Aircraft mass
-m      =   6528.11916        # mass [kg]
+m      =   6513.76926        # mass [kg]
 
 # aerodynamic properties
 e      =0.7129        # Oswald factor [ ]
