@@ -16,8 +16,18 @@ print('loaded')
 #B = np.array([[2],[2],[0],[1]])
 #C = np.array([[1,0],[0,1]])
 #D = np.array([[0],[0]])
+time = data[:,0]
 
+block = 4100  # in lbs
+bem = 9165  # in lbs
+arm_bem = 291.65  # in inch
+mac = 80.98  # in inch
 
+# seating defined
+weight_seats = np.array([[80, 131], [102, 131], [66, 214], [81, 214], [99, 251], [64, 251], [81, 288], [99, 288], [88, 170]])
+weight_seats[:, 0] = 2.20462262 * weight_seats[:, 0]  # convert weight in kg to lbs
+
+mass = instantanious_weight(time,bem, block, data, weight_seats)[0]
 
 def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
     # t0 in sec, accurate to 1 decimal place
@@ -116,24 +126,8 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
     return y1,y2,y3,y4
 
 # ================================ MAIN ============================================================
-time = data[:,0]
+
 velocity = data[:,43]
-
-block = 4100  # in lbs
-bem = 9165  # in lbs
-arm_bem = 291.65  # in inch
-mac = 80.98  # in inch
-t = 3257.8  # in sec
-
-# seating defined
-weight_seats = np.array(
-    [[80, 131], [102, 131], [66, 214], [81, 214], [99, 251], [64, 251], [81, 288], [99, 288], [88, 170]])
-weight_seats[:, 0] = 2.20462262 * weight_seats[:, 0]  # convert weight in kg to lbs
-
-mass = instantanious_weight(time,bem, block, data, weight_seats)[0]
-
-
-
 
 AOA = data[:,1]
 pitch = data[:,23]
@@ -142,13 +136,14 @@ control_input_sym = data[:,18]
 #control_input_sym = np.radians(control_input_sym)
 
 
-t_initial = 3400 #sec # =3207 for phogoid
+t_initial = 3414 #sec # =3207 for phogoid
 v_init = velocity[int(t_initial*10)] # =185 for phogoid
 u_flight = data[:,43]-v_init
 duration = 50 #sec = 200 for phogoid
 
 
-x0= np.array([[0],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
+x0_sym= np.array([[velocity[int(t_initial*10)]-v_init],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
+
 '''
 plt.subplot(2, 1, 1)
 plt.plot(time[31000:42000],pitch[31000:42000])
@@ -162,7 +157,7 @@ plt.grid(True)
 
 plt.show()
 '''
-y1,y2,y3,y4 = initial_repsonse(1,t_initial,duration,x0,control_input_sym,mass,velocity)
+y1,y2,y3,y4 = initial_repsonse(1,t_initial,duration,x0_sym,control_input_sym,mass,velocity)
 
 time = time[0:duration*10]
 
