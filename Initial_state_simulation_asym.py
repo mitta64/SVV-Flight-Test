@@ -82,10 +82,10 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
         B_sym = C1_inv * C3
 
         # asymetric
-        B1 = np.matrix([[(CYbdot - 2 * mub) * (c / V0), 0, 0, 0],
-                        [0, -c / (2 * V0), 0, 0],
-                        [0, 0, -4 * mub * KX2 * (c / V0), 4 * mub * KXZ * (c / V0)],
-                        [Cnbdot * (c / V0), 0, 4 * mub * KXZ * (c / V0), -4 * mub * KZ2 * (c / V0)]])
+        B1 = np.matrix([[(CYbdot - 2 * mub) * (b / V0), 0, 0, 0],
+                        [0, -b / (2 * V0), 0, 0],
+                        [0, 0, -4 * mub * KX2 * (b / V0), 4 * mub * KXZ * (b / V0)],
+                        [Cnbdot * (b / V0), 0, 4 * mub * KXZ * (b / V0), -4 * mub * KZ2 * (b / V0)]])
         B1[:, 2] = (b / (2 * V0)) * B1[:, 2]
         B1[:, 3] = (b / (2 * V0)) * B1[:, 3]
 
@@ -120,7 +120,7 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
         input_vector = np.array([[input[0,inital_index+i]],[input[1,inital_index+i]]])
 
         x_dot = np.dot(A,x) + np.dot(B,input_vector)
-
+        print(np.linalg.eig(A))
         x = x + dt*x_dot
 
     return y1,y2,y3,y4
@@ -181,7 +181,7 @@ y1,y2,y3,y4 = initial_repsonse(0,t_initial,duration,x0_asym,control_input_asym,m
 
 time = time[0:duration*10]
 
-plt.plot(time,y4,label='Pitchrate_numerical')
+plt.plot(time,y1,label='Pitchrate_numerical')
 #plt.plot(time[0:],y2[0:],label='AOA')
 #plt.plot(time[0:],y3[0:],label='pitch')
 #plt.plot(time[0:],y4[0:],label='pitchrate')
