@@ -119,7 +119,7 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
         y4.append(float(x[3]))
 
         #x_dot = np.dot(A, x) + input[inital_index + i]*B
-        x_dot = np.dot(A,x) + np.dot(B,np.array([[input[inital_index+i]]]))
+        x_dot = np.dot(A,x) + np.dot(np.array([[input[inital_index+i]]]), B)
 
         x = x + dt*x_dot
 
@@ -129,21 +129,34 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
 
 velocity = data[:,43]
 
+#Sym state vector parameters
 AOA = data[:,1]
 pitch = data[:,23]
 pitchrate = data[:,28]
 control_input_sym = data[:,18]
-#control_input_sym = np.radians(control_input_sym)
 
+#Getting input in required formcontrol_input_asym
+control_input_asym = []
+for i, j in zip(data[:, 17], data[:, 19]): #adding da and dr
+             item = [i, j]
+             control_input_asym.append(item)
+control_input_asym = np.array(control_input_asym)     
+print(control_input_asym)       
+
+#Asym state vector parameters
+#beta = data[:,]
+rollangle = data[:,22]
+rollrate = data[:,27]
+yawrate = data[:,29]
 
 t_initial = 3414 #sec # =3207 for phogoid
 v_init = velocity[int(t_initial*10)] # =185 for phogoid
 u_flight = data[:,43]-v_init
-duration = 50 #sec = 200 for phogoid
+duration = 25 #sec = 200 for phogoid
 
 
 x0_sym= np.array([[velocity[int(t_initial*10)]-v_init],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
-
+x0_asym = np.array([[velocity[int(t_initial*10)]-v_init],[rollangle[int(t_initial*10)]],[rollrate[int(t_initial*10)]],[yawrate[int(t_initial*10)]]])
 '''
 plt.subplot(2, 1, 1)
 plt.plot(time[31000:42000],pitch[31000:42000])
@@ -157,7 +170,7 @@ plt.grid(True)
 
 plt.show()
 '''
-y1,y2,y3,y4 = initial_repsonse(1,t_initial,duration,x0_sym,control_input_sym,mass,velocity)
+y1,y2,y3,y4 = initial_repsonse(1,t_initial,duration,x0_asym,control_input_asym,mass,velocity)
 
 time = time[0:duration*10]
 
@@ -169,7 +182,7 @@ plt.plot(time,y4,label='Pitchrate_numerical')
 #compare against flight data
 
 plt.plot(time,pitchrate[int(t_initial*10):int((t_initial+duration)*10)],label='pitchrate_flight')
-plt.plot(time,control_input_sym[int(t_initial*10):int((t_initial+duration)*10)],label = 'control_input')
+plt.plot(time,control_input_asym[int(t_initial*10):int((t_initial+duration)*10)],label = 'control_input')
 #plt.plot(time,y1[0:]-u_flight[32502:34502],label='Absolute Error')
 plt.legend()
 plt.grid(True)
