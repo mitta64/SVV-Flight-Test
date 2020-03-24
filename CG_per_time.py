@@ -9,14 +9,14 @@ from Parameters_at_altitude import *
 import matplotlib.pyplot as plt
 
 # =====================================================================================
-
+'''
 
 matlab = spio.loadmat('FTISxprt-20200306_flight3.mat')
 time = matlab['flightdata'][0][0][48][0][0][0].transpose()
 data = time
 for i in range(48):
     data = np.concatenate((data, matlab['flightdata'][0][0][i][0][0][0]), axis=1)
-
+'''
 
 # ======================================================================================
 
@@ -105,7 +105,7 @@ def moment_equilibrium(weight_seats, current_weight, zero_fuel, ramp_mass, fuel_
 
 # ========================================= MAIN =======================================================================
 
-
+'''
 block = 4100  # in lbs
 bem = 9165  # in lbs
 arm_bem = 291.65  # in inch
@@ -117,12 +117,16 @@ weight_seats = np.array(
     [[80, 131], [102, 131], [66, 214], [81, 214], [99, 251], [64, 251], [81, 288], [99, 288], [88, 170]])
 weight_seats[:, 0] = 2.20462262 * weight_seats[:, 0]  # convert weight in kg to lbs
 
-# weight determination
-current_weight, fuel_present, zero_fuel_mass, ramp_mass = instantanious_weight(t, bem, block, data, weight_seats)
+mass = instantanious_weight(time,bem, block, data, weight_seats,data)[0]
 
-mass = instantanious_weight(time,bem, block, data, weight_seats)[0]
-print(mass[32302])
+# weight determination ( uncomment if you want to use this)
+
+current_weight, fuel_present, zero_fuel_mass, ramp_mass = instantanious_weight(t, bem, block, data, weight_seats,data)
+
+
+#print(mass[32302])
 # moment determined wrt datum caused by fuel consumption
+
 fuel_moment_datum = fuel_moment(t, bem, block, weight_seats)
 
 # cg contains: BEM cg wrt datum, Zero fuel cg wrt datum, Ramp cg wrt datum, current cg wrt datum, cg wrt MAC
@@ -164,8 +168,8 @@ cm_de = -(1/d_elevator)*C_N*(d_cg/mac)
 
 slope_trimcurve = -0.4562 # from excel plot
 cm_alpha = -cm_de*slope_trimcurve
-print(cm_de)
-print(cm_alpha)
+#print(cm_de)
+#print(cm_alpha)
 #
 # ======================================================================================
 # Plot vtas over t, eigenmotions
@@ -173,3 +177,4 @@ print(cm_alpha)
 # t = np.arange(3000, 4020.1, 0.1)
 # plt.plot(t, VTAS)
 # plt.show()
+'''

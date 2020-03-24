@@ -1,6 +1,11 @@
 # Citation 550 - Linear simulation
 import numpy as np
-from CG_per_time import data
+
+path = 'data.csv'
+file = open(path, "r")
+data = np.genfromtxt(path, delimiter=",", skip_header=0)
+file.close()
+
 # xcg = 0.25 * c
 
 # Stationary flight condition
