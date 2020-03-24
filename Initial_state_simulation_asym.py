@@ -120,7 +120,6 @@ def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
         input_vector = np.array([[input[0,inital_index+i]],[input[1,inital_index+i]]])
 
         x_dot = np.dot(A,x) + np.dot(B,input_vector)
-        print(np.linalg.eig(A))
         x = x + dt*x_dot
 
     return y1,y2,y3,y4
