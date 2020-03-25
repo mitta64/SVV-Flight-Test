@@ -136,10 +136,10 @@ control_input_sym = data[:,18]
 #control_input_sym = np.radians(control_input_sym)
 
 
-t_initial = 3400 #sec # =3207 for phogoid =3400 voor short period
+t_initial = 3200 #sec # =3207 for phogoid =3400 voor short period
 v_init = velocity[int(t_initial*10)] # =185 for phogoid
 u_flight = data[:,43]-v_init
-duration = 50 #sec = 200 for phogoid
+duration = 175 #sec = 200 for phogoid
 
 
 x0_sym= np.array([[velocity[int(t_initial*10)]-v_init],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
@@ -158,26 +158,28 @@ plt.grid(True)
 plt.show()
 '''
 y1,y2,y3,y4 = initial_repsonse(1,t_initial,duration,x0_sym,control_input_sym,mass,velocity)
-shift = 50
-y3 = np.array(y3)[shift:]
-#y3 += -0.06
+shift = 1 # = 50 for short period
+y4 = np.array(y4)[shift:]  # =y3 for short period
 
 time = time[int(t_initial*10+shift):int((t_initial+duration)*10)]
 time =np.linspace(0,len(time)/100,len(time))
 
-plt.plot(time,y3,label='Pitch_numerical')
+plt.plot(time,y4,label='Pitchrate_numerical') # use y3 for short period
 #plt.plot(time[0:],y2[0:],label='AOA')
 #plt.plot(time[0:],y3[0:],label='pitch')
 #plt.plot(time[0:],y4[0:],label='pitchrate')
 
 #compare against flight data
 
-plt.plot(time,pitch[int(t_initial*10+shift):int((t_initial+duration)*10)],label='Pitch_flight')
+plt.plot(time,pitchrate[int(t_initial*10+shift):int((t_initial+duration)*10)],label='Pitchrate_flight')
 plt.plot(time,control_input_sym[int(t_initial*10+shift):int((t_initial+duration)*10)],label = 'Elevator_input')
 #plt.plot(time,y1[0:]-u_flight[32502:34502],label='Absolute Error')
+plt.xlabel('Time [s]')
+plt.ylabel('Pitch [deg] & Elevator deflection [deg]')
 plt.legend()
 plt.grid(True)
 plt.show()
+
 
 
 
