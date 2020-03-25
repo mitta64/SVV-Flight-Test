@@ -177,7 +177,7 @@ maxerror = abs(max(errorlist))
 print(avgerror, maxerror)
 
 y3 = np.array(y3)[shift:]
-y3 += -4
+y3 += -1.5
 
 time = time[int(t_initial*10+shift):int((t_initial+duration)*10)]
 time =np.linspace(0,len(time)/100,len(time))
