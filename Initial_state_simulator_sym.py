@@ -136,10 +136,10 @@ control_input_sym = data[:,18]
 #control_input_sym = np.radians(control_input_sym)
 
 
-t_initial = 3400 #sec # =3207 for phogoid
+t_initial = 3207 #sec # =3207 for phogoid =3400 voor short period
 v_init = velocity[int(t_initial*10)] # =185 for phogoid
 u_flight = data[:,43]-v_init
-duration = 50 #sec = 200 for phogoid
+duration = 200 #sec = 200 for phogoid
 
 
 x0_sym= np.array([[velocity[int(t_initial*10)]-v_init],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
