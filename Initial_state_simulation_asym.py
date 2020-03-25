@@ -28,7 +28,7 @@ weight_seats = np.array([[80, 131], [102, 131], [66, 214], [81, 214], [99, 251],
 weight_seats[:, 0] = 2.20462262 * weight_seats[:, 0]  # convert weight in kg to lbs
 
 mass = instantanious_weight(time,bem, block, data, weight_seats)[0]
-print(mass[35150])
+
 
 def initial_repsonse(mode,t0,duration,x0,input,mass,velocity):
     # t0 in sec, accurate to 1 decimal place
@@ -152,7 +152,7 @@ rollangle = data[:,22]
 rollrate = data[:,27]
 yawrate = data[:,29]
 
-t_initial = 3515 #sec # =3207 for phogoid
+t_initial = 3705 #sec # =3207 for phogoid
 v_init = velocity[int(t_initial*10)] # =185 for phogoid
 u_flight = data[:,43]-v_init
 duration = 14 #sec = 200 for phogoid
@@ -160,6 +160,19 @@ duration = 14 #sec = 200 for phogoid
 
 x0_sym= np.array([[velocity[int(t_initial*10)]-v_init],[AOA[int(t_initial*10)]],[pitch[int(t_initial*10)]],[pitchrate[int(t_initial*10)]]])
 x0_asym = np.array([[0],[rollangle[int(t_initial*10)]],[rollrate[int(t_initial*10)]],[yawrate[int(t_initial*10)]]])
+
+plt.subplot(2, 1, 1)
+plt.plot(time[31000:42000],rollangle[31000:42000])
+plt.grid(True)
+
+plt.subplot(2, 1, 2)
+plt.plot(time[31000:42000],velocity[31000:42000])
+plt.plot(time[31000:42000],rollrate[31000:42000])
+#plt.plot(time[31000:42000],data[31000:42000,42]) # is the calibrated airspeed
+plt.grid(True)
+
+plt.show()
+'''
 
 y1,y2,y3,y4 = initial_repsonse(0,t_initial,duration,x0_asym,control_input_asym,mass,velocity)
 
@@ -179,7 +192,7 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-
+'''
 
 
 '''
